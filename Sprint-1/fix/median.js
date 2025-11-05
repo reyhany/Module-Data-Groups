@@ -8,7 +8,7 @@
 function calculateMedian(list) {
   if (!Array.isArray(list)) return null;
 
-  // sadece sayıları al
+  // just numbers
   const numbers = list.filter(x => typeof x === 'number');
 
   if (numbers.length === 0) return null;

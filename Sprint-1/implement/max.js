@@ -1,5 +1,8 @@
 function findMax(elements) {
-    if(elements.)
+   const numbers = elements.filter(item => typeof item === "number" && !isNaN(item));
+   
+   if (numbers.length === 0) return -Infinity;
+      return Math.max(...numbers); 
 }
 
 module.exports = findMax;
