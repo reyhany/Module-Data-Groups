@@ -8,7 +8,8 @@ function totalTill(till) {
   let total = 0;
 
   for (const [coin, quantity] of Object.entries(till)) {
-    total += coin * quantity;
+    const coinValue = parseInt(coin.replace("p" , ""))
+    total += coinValue * quantity;
   }
 
   return `£${total / 100}`;
@@ -21,6 +22,7 @@ const till = {
   "20p": 10,
 };
 const totalAmount = totalTill(till);
+console.log(totalAmount);
 
 // a) What is the target output when totalTill is called with the till object
 
