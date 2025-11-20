@@ -16,6 +16,9 @@
 // pickFromArray(['a','b','c','d'])     // maybe returns 'c'
 
 
+// DOM elementlerini seçiyoruz
+// DOM elemanlarını seç
+
 
 // A list of quotes you can use in your app.
 // DO NOT modify this array, otherwise the tests may break!
@@ -489,29 +492,26 @@ const quotes = [
 
 // call pickFromArray with the quotes array to check you get a random quote
 
+
+// DOM elementleri
+const quoteP = document.querySelector("#quote");
+const authorP = document.querySelector("#author");
+const newQuoteBtn = document.querySelector("#new-quote");
+
+// Random element 
 function pickFromArray(choices) {
   const index = Math.floor(Math.random() * choices.length);
   return choices[index];
 }
 
-function showRandomQuote() {
-  const quoteObject = pickFromArray(quotes);
+// first quote
+const firstQuote = pickFromArray(quotes);
+quoteP.textContent = firstQuote.quote;
+authorP.textContent = firstQuote.author;
 
-  const quoteEl = document.querySelector("#quote");
-  const authorEl = document.querySelector("#author");
-
-  if (quoteEl && authorEl) {
-    quoteEl.innerText = quoteObject.quote;
-    authorEl.innerText = quoteObject.author;
-  }
-}
-
-// CRITICAL FOR TESTS
-window.addEventListener("load", () => {
-  showRandomQuote();
-
-  const newQuoteBtn = document.querySelector("#new-quote");
-  if (newQuoteBtn) {
-    newQuoteBtn.addEventListener("click", showRandomQuote);
-  }
+// click button --> new quote
+newQuoteBtn.addEventListener("click", () => {
+  const q = pickFromArray(quotes);
+  quoteP.textContent = q.quote;
+  authorP.textContent = q.author;
 });

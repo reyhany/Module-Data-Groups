@@ -5,11 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quote Generator</title>
     <script defer src="quotes.js"></script>
+
+    <style>
+      body {
+        background-color: #e3a74a;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .card {
+        background: white;
+        width: 70%;
+        margin: 100px auto;
+        padding: 40px;
+        border-radius: 10px;
+      }
+
+      #quote {
+        font-size: 24px;
+        font-weight: bold;
+        color: #c9852e;
+      }
+
+      #author {
+        text-align: right;
+        margin-top: 20px;
+        color: #c9852e;
+      }
+
+      #new-quote {
+        margin-top: 20px;
+        float: right;
+        padding: 10px 20px;
+        border: none;
+        background-color: #c9852e;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+    </style>
   </head>
+
   <body>
-    <h1>hello there</h1>
-    <p id="quote"></p>
-    <p id="author"></p>
-    <button type="button" id="new-quote">New quote</button>
+    <div class="card">
+      <h1>hello there</h1>
+
+      <p id="quote"></p>
+      <p id="author"></p>
+
+      <button type="button" id="new-quote">New quote</button>
+    </div>
   </body>
 </html>

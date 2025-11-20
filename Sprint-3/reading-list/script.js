@@ -1,4 +1,5 @@
 // for the tests, do not modify this array of books
+
 const books = [
   {
     title: "The Design of Everyday Things",
@@ -21,3 +22,25 @@ const books = [
   },
 ];
 
+const list = document.querySelector("#reading-list");
+//List of the books that have been read first
+const sortedBooks = [
+  ...books.filter(book => !book.alreadyRead),
+  ...books.filter(book => book.alreadyRead)
+];
+
+
+
+sortedBooks.forEach((book) => {
+  const li = document.createElement("li");
+
+  li.innerHTML = `
+  <img src="${book.bookCoverImage}" />
+    <p>${book.title}</p>
+    <p>${book.author}</p>
+  `;
+
+  li.classList.backgroundColor = book.alreadyRead ? "red" : "green";
+
+  list.appendChild(li);
+});
