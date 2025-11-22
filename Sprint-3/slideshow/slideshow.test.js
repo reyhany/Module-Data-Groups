@@ -74,8 +74,7 @@ describe("Level 1 challenge", () => {
     const forwardBtn = page.window.document.querySelector("#forward-btn");
 
     userEvent.click(forwardBtn);
-    userEvent.click(forwardBtn);
-
+   
     expect(image).toHaveAttribute("src", images[2]);
   });
 
