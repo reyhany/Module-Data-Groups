@@ -4,11 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Title here</title>
-    <script defer src="slideshow.js"></script>
+    <script src="slideshow.js"></script>
   </head>
   <body>
     <img id="carousel-img" src="./assets/cute-cat-a.png" alt="cat-pic" />
-    <button type="button" id="backward-btn">Backwards</button>
-    <button type="button" id="forward-btn">Forward</button>
+    <button type="button" id="backward-btn" onclick="backward()">
+      Backwards
+    </button>
+    <button type="button" id="forward-btn" onclick="forward()">Forward</button>
+    <button type="button" id="auto-forward" onclick="startAutoForward()">
+      Auto Forward
+    </button>
+    <button type="button" id="auto-backward" onclick="startAutoBackward()">
+      Auto Backward
+    </button>
+    <button type="button" id="stop" onclick="stopAuto()">Stop</button>
   </body>
 </html>
