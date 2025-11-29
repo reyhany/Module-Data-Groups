@@ -16,6 +16,7 @@ export function addTask(todos, task, completed = false) {
 
 // Delete todos[taskIndex] if it exists
 export function deleteTask(todos, taskIndex) {
+  //if (taskIndex >= 0 && taskIndex < todos.length) {
   if (todos[taskIndex]) {
     todos.splice(taskIndex, 1);
   }

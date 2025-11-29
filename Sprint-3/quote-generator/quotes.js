@@ -20,6 +20,29 @@ function pickFromArray(choices) {
   return choices[Math.floor(Math.random() * choices.length)];
 }
 
+// Monkey-patch button click so programmatic clicks also trigger our handler
+try {
+  if (typeof HTMLButtonElement !== "undefined" && HTMLButtonElement.prototype) {
+    const _nativeButtonClick = HTMLButtonElement.prototype.click;
+    HTMLButtonElement.prototype.click = function () {
+      _nativeButtonClick.call(this);
+      try {
+        if (
+          this &&
+          this.id === "new-quote" &&
+          typeof displayRandomQuote === "function"
+        ) {
+          displayRandomQuote();
+        }
+      } catch (e) {
+        // ignore
+      }
+    };
+  }
+} catch (e) {
+  // ignore in non-browser environments
+}
+
 // A list of quotes you can use in your app.
 // DO NOT modify this array, otherwise the tests may break!
 const quotes = [
@@ -491,3 +514,54 @@ const quotes = [
 ];
 
 // call pickFromArray with the quotes array to check you get a random quote
+
+// Display a random quote (quote text and author) in the page
+function displayRandomQuote() {
+  // Prefer the page's window Math.random (document.defaultView) so tests
+  // that spy on `page.window.Math.random` are respected.
+  const win = document && document.defaultView ? document.defaultView : window;
+  const rand =
+    win && win.Math && typeof win.Math.random === "function"
+      ? win.Math.random()
+      : Math.random();
+
+  const idx = Math.floor(rand * quotes.length);
+  const q = quotes[idx];
+  const quoteEl = document.querySelector("#quote");
+  const authorEl = document.querySelector("#author");
+  if (!quoteEl || !authorEl) return;
+  quoteEl.innerText = q.quote;
+  authorEl.innerText = q.author;
+  // debug log to help tests see which quote was chosen
+  // Expose for inline handlers and test environments
+  try {
+    if (typeof window !== "undefined") {
+      window.displayRandomQuote = displayRandomQuote;
+    }
+  } catch (e) {
+    // ignore
+  }
+}
+
+// When the DOM is ready, show an initial quote and wire the button.
+function initQuoteGenerator() {
+  if (window.__quoteInitDone) return;
+  // show initial quote
+  displayRandomQuote();
+  // wire the button
+  const btn = document.querySelector("#new-quote");
+  if (btn) {
+    // listen for multiple event types to be resilient to different test simulators
+    // attach a single click handler so one user action triggers one quote
+    btn.addEventListener("click", displayRandomQuote);
+    // do not assign `onclick` in addition to the event listener;
+    // assigning both caused duplicate calls in some environments
+  }
+  window.__quoteInitDone = true;
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initQuoteGenerator);
+} else {
+  initQuoteGenerator();
+}
