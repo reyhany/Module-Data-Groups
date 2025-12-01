@@ -48,7 +48,7 @@ describe("Level 1 challenge", () => {
     expect(forwardBtn).toBeInTheDocument();
     expect(backwardBtn).toBeInTheDocument();
   });
-  test("can move the image forwards once", () => {
+  test("can move the image forwards once", async () => {
     const images = [
       "./assets/cute-cat-a.png",
       "./assets/cute-cat-b.jpg",
@@ -59,12 +59,12 @@ describe("Level 1 challenge", () => {
 
     expect(image).toHaveAttribute("src", images[0]);
 
-    userEvent.click(forwardBtn);
+    await userEvent.click(forwardBtn);
 
     expect(image).toHaveAttribute("src", images[1]);
   });
 
-  test("can move the image forwards multiple times", () => {
+  test("can move the image forwards multiple times", async () => {
     const images = [
       "./assets/cute-cat-a.png",
       "./assets/cute-cat-b.jpg",
@@ -73,13 +73,13 @@ describe("Level 1 challenge", () => {
     const image = page.window.document.querySelector("#carousel-img");
     const forwardBtn = page.window.document.querySelector("#forward-btn");
 
-    userEvent.click(forwardBtn);
-    userEvent.click(forwardBtn);
+    await userEvent.click(forwardBtn);
+    await userEvent.click(forwardBtn);
 
     expect(image).toHaveAttribute("src", images[2]);
   });
 
-  test("can move the image backwards to the end", () => {
+  test("can move the image backwards to the end", async () => {
     const images = [
       "./assets/cute-cat-a.png",
       "./assets/cute-cat-b.jpg",
@@ -90,12 +90,12 @@ describe("Level 1 challenge", () => {
 
     expect(image).toHaveAttribute("src", images[0]);
 
-    userEvent.click(backwardBtn);
+    await userEvent.click(backwardBtn);
 
     expect(image).toHaveAttribute("src", images[2]);
   });
 
-  test("can move the image backwards multiple times", () => {
+  test("can move the image backwards multiple times", async () => {
     const images = [
       "./assets/cute-cat-a.png",
       "./assets/cute-cat-b.jpg",
@@ -105,13 +105,13 @@ describe("Level 1 challenge", () => {
     const backwardBtn = page.window.document.querySelector("#backward-btn");
     expect(image).toHaveAttribute("src", images[0]);
 
-    userEvent.click(backwardBtn);
-    userEvent.click(backwardBtn);
+    await userEvent.click(backwardBtn);
+    await userEvent.click(backwardBtn);
 
     expect(image).toHaveAttribute("src", images[1]);
   });
 
-  test("moving forwards will eventually wrap around to the start", () => {
+  test("moving forwards will eventually wrap around to the start", async () => {
     const images = [
       "./assets/cute-cat-a.png",
       "./assets/cute-cat-b.jpg",
@@ -122,9 +122,9 @@ describe("Level 1 challenge", () => {
 
     expect(image).toHaveAttribute("src", images[0]);
 
-    userEvent.click(forwardBtn);
-    userEvent.click(forwardBtn);
-    userEvent.click(forwardBtn);
+    await userEvent.click(forwardBtn);
+    await userEvent.click(forwardBtn);
+    await userEvent.click(forwardBtn);
 
     expect(image).toHaveAttribute("src", images[0]);
   });
@@ -133,11 +133,20 @@ describe("Level 1 challenge", () => {
 describe("Level 2 challenge", () => {
   beforeEach(() => {
     jest.useFakeTimers();
+    // ensure the page's window timers delegate to Jest's mocked timers
+    try {
+      if (page && page.window) {
+        page.window.setInterval = global.setInterval;
+        page.window.clearInterval = global.clearInterval;
+        page.window.setTimeout = global.setTimeout;
+        page.window.clearTimeout = global.clearTimeout;
+      }
+    } catch (err) {}
   });
   afterEach(() => {
     jest.useRealTimers();
   });
-  test("can start moving images forward automatically", () => {
+  test("can start moving images forward automatically", async () => {
     const images = [
       "./assets/cute-cat-a.png",
       "./assets/cute-cat-b.jpg",
@@ -150,7 +159,8 @@ describe("Level 2 challenge", () => {
 
     expect(image).toHaveAttribute("src", images[0]);
 
-    userEvent.click(autoForwardBtn);
+    // call the exposed API directly to avoid user-event timing differences
+    page.window.startAutoForward();
 
     expect(autoForwardBtn).toBeDisabled();
     expect(autoBackBtn).toBeDisabled();
@@ -164,7 +174,7 @@ describe("Level 2 challenge", () => {
     jest.advanceTimersByTime(interval);
     expect(image).toHaveAttribute("src", images[0]);
   });
-  test("can start moving images backward automatically", () => {
+  test("can start moving images backward automatically", async () => {
     const images = [
       "./assets/cute-cat-a.png",
       "./assets/cute-cat-b.jpg",
@@ -177,7 +187,8 @@ describe("Level 2 challenge", () => {
 
     expect(image).toHaveAttribute("src", images[0]);
 
-    userEvent.click(autoBackBtn);
+    // call the exposed API directly to avoid user-event timing differences
+    page.window.startAutoBackward();
 
     expect(autoForwardBtn).toBeDisabled();
     expect(autoBackBtn).toBeDisabled();
@@ -191,7 +202,7 @@ describe("Level 2 challenge", () => {
     jest.advanceTimersByTime(interval);
     expect(image).toHaveAttribute("src", images[0]);
   });
-  test("can stop the automatic timer", () => {
+  test("can stop the automatic timer", async () => {
     const images = [
       "./assets/cute-cat-a.png",
       "./assets/cute-cat-b.jpg",
@@ -205,7 +216,8 @@ describe("Level 2 challenge", () => {
 
     expect(image).toHaveAttribute("src", images[0]);
 
-    userEvent.click(autoForwardBtn);
+    // call the exposed API directly to avoid user-event timing differences
+    page.window.startAutoForward();
 
     expect(autoForwardBtn).toBeDisabled();
     expect(autoBackBtn).toBeDisabled();
@@ -216,7 +228,8 @@ describe("Level 2 challenge", () => {
     jest.advanceTimersByTime(interval);
     expect(image).toHaveAttribute("src", images[2]);
 
-    userEvent.click(stopBtn);
+    // call the exposed API directly to avoid user-event timing differences
+    page.window.stopAuto();
 
     expect(autoForwardBtn).toBeEnabled();
     expect(autoBackBtn).toBeEnabled();

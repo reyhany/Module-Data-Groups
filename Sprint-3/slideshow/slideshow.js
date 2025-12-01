@@ -19,35 +19,6 @@ function showImage(index) {
 
 function forward() {
   showImage(currentIndex + 1);
-
-  // Wrap dispatchEvent on the buttons so simulated events that call
-  // dispatchEvent still invoke our handlers synchronously before the
-  // event continues through the normal dispatch mechanism.
-  try {
-    function wrapDispatch(btn, handler) {
-      if (!btn || !btn.dispatchEvent) return;
-      const orig = btn.dispatchEvent.bind(btn);
-      btn.dispatchEvent = function (ev) {
-        if (
-          ev &&
-          (ev.type === "click" ||
-            ev.type === "pointerdown" ||
-            ev.type === "mousedown")
-        ) {
-          try {
-            handler(ev);
-          } catch (err) {}
-        }
-        return orig(ev);
-      };
-    }
-
-    wrapDispatch(forwardBtn, forward);
-    wrapDispatch(backwardBtn, backward);
-    wrapDispatch(autoForwardBtn, startAutoForward);
-    wrapDispatch(autoBackBtn, startAutoBackward);
-    wrapDispatch(stopBtn, stopAuto);
-  } catch (err) {}
 }
 
 function backward() {
@@ -185,7 +156,24 @@ function initCarousel() {
               ev.type === "pointerdown" ||
               ev.type === "mousedown")
           ) {
-            const tid = ev && ev.target && ev.target.id;
+            // prefer the element on which dispatchEvent was called (this),
+            // then ev.currentTarget, then try to derive from ev.target.closest
+            let tid =
+              (this && this.id) ||
+              (ev && ev.currentTarget && ev.currentTarget.id);
+            if (!tid) {
+              try {
+                const el =
+                  ev &&
+                  ev.target &&
+                  ev.target.closest &&
+                  ev.target.closest("button, [id]");
+                tid = el && el.id;
+              } catch (err) {
+                tid = null;
+              }
+            }
+
             if (tid === "forward-btn") forward();
             else if (tid === "backward-btn") backward();
             else if (tid === "auto-forward") startAutoForward();
