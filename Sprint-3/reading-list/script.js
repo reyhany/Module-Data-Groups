@@ -23,13 +23,12 @@ const books = [
 ];
 
 const list = document.querySelector("#reading-list");
+list.classList.add("reading-list");
 //List of the books that have been read first
 const sortedBooks = [
-  ...books.filter(book => !book.alreadyRead),
-  ...books.filter(book => book.alreadyRead)
+  ...books.filter((book) => !book.alreadyRead),
+  ...books.filter((book) => book.alreadyRead),
 ];
-
-
 
 sortedBooks.forEach((book) => {
   const li = document.createElement("li");
@@ -40,7 +39,21 @@ sortedBooks.forEach((book) => {
     <p>${book.author}</p>
   `;
 
-  li.classList.backgroundColor = book.alreadyRead ? "red" : "green";
+  const color = book.alreadyRead ? "green" : "red";
+  li.style.backgroundColor = color;
+  li.setAttribute("data-read", book.alreadyRead ? "true" : "false");
 
   list.appendChild(li);
+  console.log("reading-list: set", book.title, li.style.backgroundColor);
 });
+
+// debug: log first li style values for test assertions
+const _firstLi = list.querySelector(":first-child");
+if (_firstLi) {
+  console.log("reading-list: FIRSTSTYLE attr=", _firstLi.getAttribute("style"));
+  console.log("reading-list: FIRSTSTYLE prop=", _firstLi.style.backgroundColor);
+  console.log(
+    "reading-list: FIRSTSTYLE computed=",
+    window.getComputedStyle(_firstLi).backgroundColor
+  );
+}

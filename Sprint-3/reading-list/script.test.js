@@ -2,7 +2,6 @@ const path = require("path");
 const { JSDOM } = require("jsdom");
 const { default: userEvent } = require("@testing-library/user-event");
 
-
 let page = null;
 
 beforeEach(async () => {
@@ -69,16 +68,16 @@ describe("Reading list", () => {
     const firstLi = page.window.document.querySelector(
       "#reading-list > :first-child"
     );
-    expect(firstLi).toHaveStyle({ backgroundColor: "red" });
+    expect(firstLi).toHaveStyle({ backgroundColor: "rgb(255, 0, 0)" });
 
     const secondLi = page.window.document.querySelector(
       "#reading-list > :nth-child(2)"
     );
-    expect(secondLi).toHaveStyle({ backgroundColor: "green" });
+    expect(secondLi).toHaveStyle({ backgroundColor: "rgb(0, 128, 0)" });
 
     const thirdLi = page.window.document.querySelector(
       "#reading-list > :nth-child(3)"
     );
-    expect(thirdLi).toHaveStyle({ backgroundColor: "green" });
+    expect(thirdLi).toHaveStyle({ backgroundColor: "rgb(0, 128, 0)" });
   });
 });

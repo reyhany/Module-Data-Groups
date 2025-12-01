@@ -1,58 +1,16 @@
 <!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8">
-  <title>Reading List</title>
-  <style>
-    .reading-list li[data-read="true"] {
-      background-color: green;
-    }
-   
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reading List App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Reading List</h1>
+    <ul id="reading-list"></ul>
 
-
-    .reading-list li[data-read="false"] {
-      background-color: red;
-    }
-
-    #reading-list li {
-      list-style: none;
-      margin: 10px 0;
-      padding: 10px;
-      display: flex;
-      align-items: center;
-    }
-
-    #reading-list img {
-      height: 100px;
-      margin-right: 15px;
-    }
-    
-  .book-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.title {
-  font-weight: bold;
-}
-
-.author {
-  font-style: italic;
-}
-
-#reading-list li:hover {
-  transform: scale(1.03);
-  transition: 0.2s;
-  cursor: pointer;
-}
-
-  </style>
-</head>
-<body>
-  <h1>Reading List</h1>
-  <ul id="reading-list"></ul>
-
-  <!-- call JavaScript file -->
-  <script src="script.js"></script>
-</body>
+    <!-- call JavaScript file -->
+    <script src="script.js"></script>
+  </body>
 </html>
