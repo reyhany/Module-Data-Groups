@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/CodeYourFuture/CYF-Coursework-Template#readme",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "http-server": "^14.1.1",
     "jest": "^30.0.4"
   }

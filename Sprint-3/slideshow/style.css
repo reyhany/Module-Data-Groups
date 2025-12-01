@@ -1,1 +1,136 @@
-/** Write your CSS in here **/
+/** Slideshow Styles **/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.carousel-container {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 100%;
+}
+
+#carousel-img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  display: block;
+}
+
+.controls-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.manual-controls,
+.auto-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+#backward-btn,
+#forward-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+#backward-btn:hover,
+#forward-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+#backward-btn:active,
+#forward-btn:active {
+  transform: translateY(0);
+}
+
+#auto-backward,
+#auto-forward {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+#auto-backward:hover,
+#auto-forward:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+}
+
+#auto-backward:active,
+#auto-forward:active {
+  transform: translateY(0);
+}
+
+#auto-backward:disabled,
+#auto-forward:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+#stop {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: #333;
+}
+
+#stop:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(250, 112, 154, 0.4);
+}
+
+#stop:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+  .carousel-container {
+    padding: 20px;
+  }
+
+  #carousel-img {
+    height: 300px;
+    margin-bottom: 20px;
+  }
+
+  button {
+    padding: 10px 16px;
+    font-size: 14px;
+    min-width: 100px;
+  }
+
+  .controls-section {
+    gap: 15px;
+  }
+}

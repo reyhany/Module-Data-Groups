@@ -5,19 +5,15 @@ const images = [
   "./assets/cute-cat-c.jpg",
 ];
 
-const imgEl = document.querySelector("#carousel-img");
-const forwardBtn = document.querySelector("#forward-btn");
-const backwardBtn = document.querySelector("#backward-btn");
-const autoForwardBtn = document.querySelector("#auto-forward");
-const autoBackwardBtn = document.querySelector("#auto-backward");
-const stopBtn = document.querySelector("#stop");
-
 let currentIndex = 0;
 let timerId = null;
 const interval = 2000;
 
 function showImage() {
-  imgEl.src = images[currentIndex];
+  const imgEl = document.querySelector("#carousel-img");
+  if (imgEl) {
+    imgEl.src = images[currentIndex];
+  }
 }
 
 function nextImage() {
@@ -30,20 +26,14 @@ function prevImage() {
   showImage();
 }
 
-// Manuel control buttons
-if (forwardBtn) {
-  forwardBtn.addEventListener("click", nextImage);
-}
-
-if (backwardBtn) {
-  backwardBtn.addEventListener("click", prevImage);
-}
-
 function startAuto(direction) {
   if (timerId !== null) return;
 
-  autoForwardBtn.disabled = true;
-  autoBackwardBtn.disabled = true;
+  const autoForwardBtn = document.querySelector("#auto-forward");
+  const autoBackwardBtn = document.querySelector("#auto-backward");
+
+  if (autoForwardBtn) autoForwardBtn.disabled = true;
+  if (autoBackwardBtn) autoBackwardBtn.disabled = true;
 
   if (direction === "forward") {
     timerId = setInterval(nextImage, interval);
@@ -57,23 +47,44 @@ function stopAuto() {
     clearInterval(timerId);
     timerId = null;
   }
-  autoForwardBtn.disabled = false;
-  autoBackwardBtn.disabled = false;
+
+  const autoForwardBtn = document.querySelector("#auto-forward");
+  const autoBackwardBtn = document.querySelector("#auto-backward");
+
+  if (autoForwardBtn) autoForwardBtn.disabled = false;
+  if (autoBackwardBtn) autoBackwardBtn.disabled = false;
 }
 
-// Otomatik control buttons
+// Manual control buttons
+const forwardBtn = document.querySelector("#forward-btn");
+if (forwardBtn) {
+  forwardBtn.addEventListener("click", nextImage);
+}
+
+const backwardBtn = document.querySelector("#backward-btn");
+if (backwardBtn) {
+  backwardBtn.addEventListener("click", prevImage);
+}
+
+// Auto control buttons
+const autoForwardBtn = document.querySelector("#auto-forward");
 if (autoForwardBtn) {
   autoForwardBtn.addEventListener("click", () => {
     startAuto("forward");
   });
 }
 
+const autoBackwardBtn = document.querySelector("#auto-backward");
 if (autoBackwardBtn) {
   autoBackwardBtn.addEventListener("click", () => {
     startAuto("backward");
   });
 }
 
+const stopBtn = document.querySelector("#stop");
 if (stopBtn) {
   stopBtn.addEventListener("click", stopAuto);
 }
+
+// Initialize - display the first image
+showImage();

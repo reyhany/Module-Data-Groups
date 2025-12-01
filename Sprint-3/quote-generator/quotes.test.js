@@ -50,7 +50,7 @@ describe("Quote generator", () => {
     );
     expect(authorP).toHaveTextContent("Albert Einstein");
   });
-  test("can change quote to another random quote", () => {
+  test("can change quote to another random quote", async () => {
     const quoteP = page.window.document.querySelector("#quote");
     const authorP = page.window.document.querySelector("#author");
     const newQuoteBtn = page.window.document.querySelector("#new-quote");
@@ -61,14 +61,14 @@ describe("Quote generator", () => {
     expect(authorP).toHaveTextContent("Albert Einstein");
     expect(newQuoteBtn).toHaveTextContent("New quote");
 
-    userEvent.click(newQuoteBtn);
+    await userEvent.click(newQuoteBtn);
 
     expect(quoteP).toHaveTextContent(
       "I've learned that people will forget what you said, people will forget what you did, but people will never forget how you made them feel."
     );
     expect(authorP).toHaveTextContent("Maya Angelou");
 
-    userEvent.click(newQuoteBtn);
+    await userEvent.click(newQuoteBtn);
 
     expect(quoteP).toHaveTextContent(
       "I have learned over the years that when one's mind is made up, this diminishes fear."
